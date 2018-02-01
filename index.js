@@ -10,6 +10,10 @@ var figlet = require('figlet');
 var basicAuth = require('basic-auth-connect');
 var compress = require('compression');
 
+var bodyParser = require('body-parser');
+
+
+
 var yargs = require('yargs')
     .usage('usage: $0 [options] <aws-es-cluster-endpoint>')
     .option('b', {
@@ -112,6 +116,11 @@ var proxy = httpProxy.createProxyServer({
 });
 
 var app = express();
+
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+
+
 app.use(compress());
 if (argv.u && argv.a) {
   app.use(basicAuth(argv.u, argv.a));
