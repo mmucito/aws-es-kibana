@@ -119,8 +119,7 @@ var proxy = httpProxy.createProxyServer({
 
 var app = express();
 
-app.use(bodyParser.json({limit: "50mb"}));
-app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:50000}));
+
 
 
 
@@ -129,6 +128,10 @@ if (argv.u && argv.a) {
   app.use(basicAuth(argv.u, argv.a));
 }
 app.use(bodyParser.raw({limit: REQ_LIMIT, type: function() { return true; }}));
+
+app.use(bodyParser.json({limit: "50mb"}));
+app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:50000}));
+
 app.use(getCredentials);
 app.use(function (req, res) {
     req.setTimeout(0);
@@ -169,7 +172,7 @@ proxy.on('proxyRes', function (proxyReq, req, res) {
 });
 
 var server = http.createServer(app).listen(PORT, BIND_ADDRESS);
-server.timeout = 10000;
+server.timeout = 240000;
 
 if(!argv.s) {
     console.log(figlet.textSync('AWS ES Proxy!', {
