@@ -104,7 +104,7 @@ chain.resolve(function (err, resolved) {
 });
 
 function getCredentials(req, res, next) {
-    req.setTimeout(0);
+    
 
     return credentials.get(function (err) {
         if (err) return next(err);
@@ -115,7 +115,8 @@ var proxy = httpProxy.createProxyServer({
     target: TARGET,
     changeOrigin: true,
     secure: true,
-    proxyTimeout: 240000
+    
+    
 });
 
 var app = express();
@@ -135,7 +136,7 @@ app.use(bodyParser.raw({limit: REQ_LIMIT, type: function() { return true; }}));
 
 app.use(getCredentials);
 app.use(function (req, res) {
-    req.setTimeout(240000);
+    
     var bufferStream;
     if (Buffer.isBuffer(req.body)) {
         var bufferStream = new stream.PassThrough();
@@ -145,8 +146,7 @@ app.use(function (req, res) {
 });
 
 proxy.on('proxyReq', function (proxyReq, req) {
-    proxyReq.setTimeout(240000);
-    req.setTimeout(240000);
+    
     var endpoint = new AWS.Endpoint(ENDPOINT);
     var request = new AWS.HttpRequest(endpoint);
     request.method = proxyReq.method;
@@ -167,15 +167,14 @@ proxy.on('proxyReq', function (proxyReq, req) {
 });
 
 proxy.on('proxyRes', function (proxyReq, req, res) {
-    req.setTimeout(240000);
-    proxyReq.setTimeout(240000);
+    
     if (req.url.match(/\.(css|js|img|font)/)) {
         res.setHeader('Cache-Control', 'public, max-age=86400');
     }
 });
 
 var server = http.createServer(app).listen(PORT, BIND_ADDRESS);
-server.timeout = 240000;
+
 
 if(!argv.s) {
     console.log(figlet.textSync('AWS ES Proxy!', {
