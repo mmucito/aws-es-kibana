@@ -57,7 +57,7 @@ var yargs = require('yargs')
     })
     .option('l', {
       alias: 'limit',
-      default: process.env.LIMIT || '1kb',  
+      default: process.env.LIMIT || '100kb',  
       demand: false,
       describe: 'request limit'
     })
@@ -125,10 +125,6 @@ var app = express();
 //app.use(bodyParser());
 //app.use(bodyParser({limit: '50mb'}));
 //app.use(bodyParser.urlencoded({limit: '50mb'}));
-
-
-app.use(bodyParser.json({limit: "100kb"}));
-app.use(bodyParser.urlencoded({limit: "100kb", extended: true}));
 
 //app.use(bodyParser.json({limit: '50mb', type: 'application/json'}));
 //app.use(bodyParser());
