@@ -145,6 +145,7 @@ app.use(function (req, res) {
 });
 
 proxy.on('proxyReq', function (proxyReq, req) {
+    proxyReq.setTimeout(0);
     req.setTimeout(0);
     var endpoint = new AWS.Endpoint(ENDPOINT);
     var request = new AWS.HttpRequest(endpoint);
@@ -167,6 +168,7 @@ proxy.on('proxyReq', function (proxyReq, req) {
 
 proxy.on('proxyRes', function (proxyReq, req, res) {
     req.setTimeout(0);
+    proxyReq.setTimeout(0);
     if (req.url.match(/\.(css|js|img|font)/)) {
         res.setHeader('Cache-Control', 'public, max-age=86400');
     }
