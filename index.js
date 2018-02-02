@@ -126,9 +126,9 @@ var app = express();
 //app.use(bodyParser({limit: '50mb'}));
 //app.use(bodyParser.urlencoded({limit: '50mb'}));
 
-app.use(bodyParser.json({limit:1024102420, type:'application/json'}));
-//app.use(bodyParser.json({limit: "1mb"}));
-//app.use(bodyParser.urlencoded({limit: "1mb", extended: true, parameterLimit:50000}));
+
+app.use(bodyParser.json({limit: "500kb"}));
+app.use(bodyParser.urlencoded({limit: "500kb", extended: true, parameterLimit:50000}));
 
 
 app.use(compress());
