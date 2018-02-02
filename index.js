@@ -114,7 +114,8 @@ function getCredentials(req, res, next) {
 var proxy = httpProxy.createProxyServer({
     target: TARGET,
     changeOrigin: true,
-    secure: true
+    secure: true,
+    proxyTimeout: 240000
 });
 
 var app = express();
