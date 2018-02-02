@@ -104,6 +104,8 @@ chain.resolve(function (err, resolved) {
 });
 
 function getCredentials(req, res, next) {
+    req.setTimeout(0);
+
     return credentials.get(function (err) {
         if (err) return next(err);
         else return next();
@@ -118,7 +120,8 @@ var proxy = httpProxy.createProxyServer({
 var app = express();
 
 app.use(bodyParser.json({limit: "50mb"}));
-app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:50000}));
+app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:50000}));r
+
 
 
 app.use(compress());
@@ -128,6 +131,7 @@ if (argv.u && argv.a) {
 app.use(bodyParser.raw({limit: REQ_LIMIT, type: function() { return true; }}));
 app.use(getCredentials);
 app.use(function (req, res) {
+    req.setTimeout(0);
     var bufferStream;
     if (Buffer.isBuffer(req.body)) {
         var bufferStream = new stream.PassThrough();
@@ -137,6 +141,7 @@ app.use(function (req, res) {
 });
 
 proxy.on('proxyReq', function (proxyReq, req) {
+    req.setTimeout(0);
     var endpoint = new AWS.Endpoint(ENDPOINT);
     var request = new AWS.HttpRequest(endpoint);
     request.method = proxyReq.method;
@@ -157,6 +162,7 @@ proxy.on('proxyReq', function (proxyReq, req) {
 });
 
 proxy.on('proxyRes', function (proxyReq, req, res) {
+    req.setTimeout(0);
     if (req.url.match(/\.(css|js|img|font)/)) {
         res.setHeader('Cache-Control', 'public, max-age=86400');
     }
