@@ -120,7 +120,8 @@ var proxy = httpProxy.createProxyServer({
 var app = express();
 
 
-
+app.use(bodyParser.json({limit: "50mb"}));
+app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:50000}));
 
 
 app.use(compress());
@@ -129,8 +130,7 @@ if (argv.u && argv.a) {
 }
 app.use(bodyParser.raw({limit: REQ_LIMIT, type: function() { return true; }}));
 
-app.use(bodyParser.json({limit: "50mb"}));
-app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:50000}));
+
 
 app.use(getCredentials);
 app.use(function (req, res) {
