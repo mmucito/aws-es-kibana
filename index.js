@@ -156,8 +156,8 @@ proxy.on('proxyReq', function (proxyReq, req) {
     
     var endpoint = new AWS.Endpoint(ENDPOINT);
     var request = new AWS.HttpRequest(endpoint);
-    request.setTimeout(0);
     
+
     request.method = proxyReq.method;
     request.path = proxyReq.path;
     request.region = REGION;
