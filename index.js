@@ -120,6 +120,11 @@ var proxy = httpProxy.createProxyServer({
 });
 
 var app = express();
+app.use(function(req, res, next){
+    req.setTimeout(0) // no timeout for all requests, your server will be DoS'd
+    next()
+  })
+  
 //app.disable('etag');
 
 //app.use(bodyParser());
