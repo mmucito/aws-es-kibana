@@ -178,7 +178,7 @@ proxy.on('proxyRes', function (proxyReq, req, res) {
 });
 
 var server = http.createServer(app).listen(PORT, BIND_ADDRESS);
-
+server.setTimeout(240000);
 
 if(!argv.s) {
     console.log(figlet.textSync('AWS ES Proxy!', {
